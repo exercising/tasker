@@ -44,12 +44,15 @@ class MasterViewController: UITableViewController {
 
     // MARK: - Segues
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showDetail" {
-            if let indexPath = self.tableView.indexPathForSelectedRow() {
-                let task = TaskStore.sharedInstance.get(indexPath.row) 
-                (segue.destinationViewController as DetailViewController).detailItem = task
-            }
+    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+        if segue!.identifier == "showDetails" {
+            let navigationController = segue!.destinationViewController as UINavigationController
+            
+            let cda = navigationController.viewControllers[0] as DetailViewController
+
+            let indexPath = self.tableView.indexPathForSelectedRow()
+            let task : Task = TaskStore.sharedInstance.get(indexPath!.row)
+            cda.detailItem = task
         }
     }
 
@@ -64,8 +67,8 @@ class MasterViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell",  forIndexPath: indexPath) as UITableViewCell
+        
         let task = TaskStore.sharedInstance.get(indexPath.row)
         cell.textLabel?.text = task.title
         cell.detailTextLabel?.text = task.notes

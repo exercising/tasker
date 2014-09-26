@@ -10,29 +10,36 @@ import UIKit
 
 class DetailViewController: UIViewController {
                             
-    @IBOutlet weak var detailDescriptionLabel: UILabel!
 
+    @IBOutlet weak var detailDescriptionLabel: UILabel!
+    
+    @IBOutlet weak var notesView: UILabel!
 
     var detailItem: Task? {
         didSet {
-            // Update the view.
             self.configureView()
         }
     }
-
-    func configureView() {
-        // Update the user interface for the detail item.
-//        if let detail: Task = self.detailItem {
-//            if let label = self.detailDescriptionLabel {
-//                label.text = detail.title
-//            }
-//        }
-
+    
+    func changeSomething(task: Task) {
+        detailItem = task
+        self.configureView()
     }
+    
+    func configureView() {
+        if let detail: Task = detailItem  {
+            if let label = self.detailDescriptionLabel {
+                label.text = detail.title
+            }
+            if let notes = notesView {
+                notes.text = detail.notes
+            }
+        }
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
     }
 
